@@ -211,16 +211,13 @@ public with sharing class ClassesObjectsMethods {
      */
     public static Integer generateRandomNumber() {
         // Use Math class to generate number between 50 and 100
-        //Integer minNumber = 50;
-        //Integer maxNumber = 100;
+        Integer minNumber = 50;
+        Integer maxNumber = 100;
 
-        //HELP! I am stuck to figure out how to generate random numbers between the min and max range, not great at MATH
-        //I thought I could multiply the min or max number with the Math.random class, but I don't know how to calculate them
-        //Integer randomNumber = (Integer)(Math.random() * minNumber + Math.random() * maxNumber);
+        Integer randomNumber = (Integer)(Math.random()) * (maxNumber - minNumber + 1) + minNumber;
 
         // Return the random integer
-        //retun randomNumber;
-        return null; // Replace null with the variable you used to store the result
+        return randomNumber; // Replace null with the variable you used to store the result
     }
 
     /**
