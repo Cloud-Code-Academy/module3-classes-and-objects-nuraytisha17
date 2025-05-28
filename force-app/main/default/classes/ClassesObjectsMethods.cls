@@ -54,13 +54,15 @@ public with sharing class ClassesObjectsMethods {
         // In the first position add the string length
         // In the second position add the substring
         // In the third position add the string in lower case
-        List<String> practiceStringList = new List<String>{
+        List<String> practiceStringList = new List<String> {
             String.valueOf(practiceStringLength), 
             practiceStrSubstr, 
-            practiceStrLower};
+            practiceStrLower
+        };
 
         return practiceStringList; // Replace null with the variable you used to store the result
     }
+
 
     /**
      * Question 2
@@ -70,26 +72,17 @@ public with sharing class ClassesObjectsMethods {
      * @return A list of boolean values indicating whether the string starts with 'Sales', ends with 'Force', or contains 'Awesome'.
      */
     public static List<Boolean> checkStringContent(String input) {
-        
-        //Storing the input parameter in a string variable
-        String checkString = input;
-        // Check if the string starts with 'Sales'
-        checkString.startsWith('Sales');
-        
-        // Check if the string ends with 'Force'
-        checkString.endsWith('Force');
-        
-        // Check if the string contains 'Awesome'
-        checkString.contains('Awesome');
 
-        // Initialize a list to store the results
-        List<Boolean> checkStringResultList = new List<Boolean>();
-        checkStringResultList.add(checkString.startsWith('Sales'));
-        checkStringResultList.add(checkString.endsWith('Force'));
-        checkStringResultList.add(checkString.contains('Awesome')); 
+        List<Boolean> checkStringResultList = new List<Boolean>{
+            input.startsWith('Sales'),
+            input.endsWith('Force'),
+            input.contains('Awesome')
+        };
         
         return checkStringResultList; // Replace null with the variable you used to store the result
     }
+    // Don't create a new variable in memory just to store your argument that was passed in when you can act directly on the argument.
+    // This is another good example of where a List constructor is easier to read. Using the add() method does work, but you have to re-type the same thing multiple times.
 
     /**
      * Question 3
@@ -115,6 +108,11 @@ public with sharing class ClassesObjectsMethods {
         // Return the sentence with unique words
         return resultSentence; // Replace null with the variable you used to store the result
     }
+    /*
+    Great work! Don't forget there is a Set Constructor that accepts a List and allows you to avoid using a Loop.
+    Set<String> uniqueWords = new Set<String>(splitWord);
+    https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_set.htm
+    */
 
     /**
      * Question 4
@@ -126,25 +124,25 @@ public with sharing class ClassesObjectsMethods {
      */
     public static Integer countVowels(String str) {
         //ignore lower case for the param
-        str = str.toLowerCase();
         // Initialize the result Integer
-        Integer vowelsCount = 0;
-
         //Set to initialize the vowels
-        Set<String> findVowels = new Set<String>{'a', 'e', 'i', 'o', 'u'};
+        Set<String> vowels = new Set<String>{'a', 'e', 'i', 'o', 'u'};
+        Integer vowelCount = 0;
 
         // get individual characters from the string - hint use substring or split
         // check if the character is a vowel
         // if it is a vowel, increment the result Integer
-        for (Integer i=0; i < str.length(); i++) {
-            String currentChar = str.substring(i, i + 1);
-            if (findVowels.contains(currentChar)) {
-                vowelsCount++;
+        for (String letter : str.split('')) {
+            if (vowels.contains(letter.toLowerCase())) {
+                vowelCount++;
             }
         }
-
-        return vowelsCount; // Replace null with the variable you used to store the result
+    // Replace null with the variable you used to store the result
+    return vowelCount;
     }
+    //I fully believe you learn just as much from reading a piece of code and working to break it down as you do from writing it,
+    // so break this one down and make sure you understand what I did and why it works.
+
 
     /**
      * Question 5
@@ -162,7 +160,8 @@ public with sharing class ClassesObjectsMethods {
             'Donald Knuth', 
             'Guido van Rossum', 
             'Ken Thompson', 
-            'Stephen Hawking'};
+            'Stephen Hawking'
+        };
 
         // The variable to store the concatenated string
         String concatString = '';
@@ -227,15 +226,14 @@ public with sharing class ClassesObjectsMethods {
      * @return The current date in the current user locale format.
      */
     public static String getCurrentDate() {
-        // Get the todays date
-        Date todayDate = Date.today();
 
         // Format the current date
-        String dateFormat = todayDate.format();
+        String dateFormat = Date.today().format();
 
         // Return the result
         return dateFormat; // Replace null with the variable you used to store the result
     }
+    // You can string methods together so that you create fewer variables in memory.
 
     /**
      * Question 9
@@ -283,11 +281,8 @@ public with sharing class ClassesObjectsMethods {
         }
 
         //Extract year from the dates
-        Integer findyYear1 = d1.year();
-        Integer findYear2 = d2.year();
-
         // Subtract the difference in years
-        Integer calculateDifference = Math.abs(findyYear1 - findYear2);
+        Integer calculateDifference = Math.abs(d1.year() - d2.year());
 
         return calculateDifference; // Replace null with the variable you used to store the result
     }
@@ -318,7 +313,9 @@ public with sharing class ClassesObjectsMethods {
         // Method that returns the details of the book
         public String getBookDetails() {
             // return A string containing the details of the book in the format "Title: <title>, Author: <author>"
-            String concatDetails = 'Title: ' + title + ', Author: ' + author;
+            String concatDetails = 'Title: ' + this.title + ', Author: ' + this.author;
+            // You have to use the this keyword to access the specific instance of the class as an object in memory.
+
             return concatDetails; // Replace null with the variable you used to store the result
         }
     }
@@ -398,7 +395,8 @@ public with sharing class ClassesObjectsMethods {
 
         // Return a string in the format "Hello, my name is <name> and I am <age> years old."
         // For example, introduceYourself() should return a string like "Hello, my name is John Doe and I am 28 years old."
-        String personIntro = 'Hello, my name is ' + name + ' and I am ' + age + ' years old.';
+        String personIntro = 'Hello, my name is ' + this.name + ' and I am ' + this.age + ' years old.';
+        // Suggested: String personIntro = 'Hello, my name is ' + this.name + ' and I am ' + this.age + ' years old.';
         return personIntro;
     }
         // Getter method that returns the name of the person
@@ -497,18 +495,17 @@ public with sharing class ClassesObjectsMethods {
      * @return The Person object of the older person.
      */
     public static Person getOlderPerson(Person person1, Person person2) {
-        Integer age1 = person1.getAge();
-        Integer age2 = person2.getAge();
 
         // If the first Person is older, the method should return the first Person.
         // If the second Person is older, it should return the second Person.
         // If they are the same age, return either.
-        if (age1 > age2) {
+       if (person1.getAge() >= person2.getAge()) {
             return person1;
-        } else if (age2 > age1) {
+       } else if (person2.getAge() > person1.getAge()) {
             return person2;
-        } else {
-            return person1;
         }
+    return person1;
     }
+    // Don't create extra variables in memory if you don't have to.
+    // Use the >= symbol to avoid needing the last else statement to make your code execute faster and be more concise.
 }
